@@ -7,22 +7,25 @@ jobs:
   build-and-test:
     docker:
        - image: circleci/python:3.7
+
     working_directory: ~/xTmp/xDev/modules/CalculatorLibrary
+
     steps:
       - checkout
       - run
-         name: install_dependencies
-            command:  |
-               python3 -m venv venv
-               . venv/bin/activate
-               pip install -r requirements.txt
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+         name: dep
+         command:  |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
       - run:
-            name: run_tests
+            name: Tests
             command:  |
                . venv/bin/activiate
                flake8 —exclude=venv* —statistics
                pytest -v —cov=calculator
 
+workflows:
+  main:
+    jobs:
+      - build-and-test
