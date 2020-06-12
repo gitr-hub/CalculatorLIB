@@ -1,19 +1,29 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@0.2.1
+  python: circleci/python:3.8
 
 jobs:
   build-and-test:
-    executor: python/default
+    executor: python3.8
+    working_directory: ~/xTmp/xDev/modules/CalculatorLibrary
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+
+
       - run:
-          command: ./manage.py test
-          name: Test
+          command: 
+             python3 -m venv venv
+             . venv/bin/activate
+             pip install -r requirements.txt
+          name: Create virtual environment
+      - run:
+         command:  |
+               . venv/bin/activiate
+               flake8 —exclude=venv* —statistics
+               pytest -v —cov=calculator
+         name: run tests
+         
 
 workflows:
   main:
