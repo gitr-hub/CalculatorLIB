@@ -1,31 +1,26 @@
-version: 2.1
-
-orbs:
-  python: circleci/python@0.2.1
-
+# Python CircleCI 2.0 configuration file
+version: 2
 jobs:
-  build-and-test:
-    docker:
-       - image: circleci/python:3.7
+   build:
+      docker:
+         - image: circleci/python:3.7
 
-    working_directory: ~/xTmp/xDev/modules/CalculatorLibrary
+      working_directory: ~/xTmp/xDev/modules/CalculatorLibrary
 
-    steps:
-      - checkout
-      - run
-         command:  |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-         name: dep
-      - run:
+      steps:
+         # Step 1: obtain repo from GitHub
+         - checkout
+         # Step 2: create virtual env and install dependencies
+         - run:
+            name: install dependencies
+            command:  |
+               python3 -m venv venv
+               . venv/bin/activate
+               pip install -r requirements.txt
+         # Step3: run linter and tests
+         - run:
+            name: run tests
             command:  |
                . venv/bin/activiate
                flake8 —exclude=venv* —statistics
                pytest -v —cov=calculator
-            name: Tests
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
