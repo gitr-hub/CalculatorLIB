@@ -1,3 +1,4 @@
+# Python CircleCI 2.0 configuration file
 version: 2
 jobs:
    build:
@@ -20,6 +21,6 @@ jobs:
          - run:
             name: run tests
             command:  |
-               . venv/bin/activiate
+               . calculator/bin/activate
                flake8 —exclude=venv* —statistics
                pytest -v —cov=calculator
