@@ -13,17 +13,17 @@ jobs:
     steps:
       - checkout
       - run
-         name: dep
          command:  |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+         name: dep
       - run:
-            name: Tests
             command:  |
                . venv/bin/activiate
                flake8 —exclude=venv* —statistics
                pytest -v —cov=calculator
+            name: Tests
 
 workflows:
   main:
