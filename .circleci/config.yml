@@ -3,9 +3,9 @@ version: 2
 jobs:
    build:
       docker:
-         - image: circleci/python:3.8
+         - image: circleci/python:3.7
 
-      working_directory: ~/xTmp/xDev/modules/CalculatorLibrary
+      working_directory: ~/xTmp/xDev/modules/CalculatorLibrary/.
 
       steps:
          # Step 1: obtain repo from GitHub
@@ -14,7 +14,7 @@ jobs:
          - run:
             name: install dependencies
             command:  |
-               python3.8 -m venv calculator
+               python3.7 -m venv calculator
                . calculator/bin/activate
                pip install -r requirements.txt
          # Step3: run linter and tests
@@ -24,4 +24,4 @@ jobs:
                . calculator/bin/activate
                # python3.8 -m flake8 *.py
                pytest --cov=test_calculator --cov=calculator \
-                    ~/xTmp/xDev/modules/CalculatorLibrary/ .
+                    ~/xTmp/xDev/modules/CalculatorLibrary/.
